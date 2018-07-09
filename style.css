@@ -1,0 +1,329 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family:"Microsoft YaHei";;
+}
+body,html{
+    width: 100%;
+    height: 100%;
+    user-select:none;
+}
+#wrap{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    background: linear-gradient(to bottom,#0ea98c,#66ffc7);
+    min-width: 850px;
+    min-height: 460px;
+}
+#btn_star{
+    width: 100%;
+    height: 100%;
+    box-sizing:border-box;
+    display:inline-block;
+    background: transparent;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+    position:absolute;
+    left:0;
+    top: 100%;
+    cursor: pointer;
+
+}
+.load{
+    width: 40%;
+    height: 50%;
+    position:absolute;
+    left: 50%;
+    top: 50%;
+    transform:translate(-50%,-50%);
+    text-align: center;
+    padding:10px;
+    min-width:420px;
+    min-height: 280px;
+}
+.load h1{
+    color: #fff;
+    font-family: "Microsoft YaHei";
+    font-size: 50px;
+    text-align: center;
+    font-weight: 500;
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%,-50%);
+}
+.load h1 span{
+}
+.load h1 i{
+    font-style: normal;
+    font-weight: 100;
+}
+#out_content{
+    font-size:40px;
+}
+#download{
+    display:none;
+}
+#file{display: none}
+.f_file{
+    padding-left: 45px;
+    background-image:url(img/file.png);
+    background-size: 14%;
+    background-repeat: no-repeat;
+    background-position:30px center;
+}
+#upload p{
+    position: absolute;
+    left: 50%;
+    bottom: -110%;
+    transform: translateX(-50%);
+}
+#upload p a{
+    color: #fff;
+}
+.upload_box{
+    width: 40%;
+    height: 20%;
+    min-width: 220px;
+    min-height:60px;
+    position:absolute;
+    left:50%;
+    top: 50%;
+    transform:translate(-50%,-50%);
+}
+.upload_box .btns{
+    width: 100%;
+    height: 100%;
+    box-sizing:border-box;
+    display:inline-block;
+    background-color: transparent;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+    position:absolute;
+    left:0;
+    cursor: pointer;
+    overflow:hidden;
+}
+.btns:hover,#btn_star:hover{
+    border:3px solid #87fd9d;
+}
+#btn_ud{
+    box-sizing: border-box;
+    padding-left: 20px;
+    top: 120%;
+    background-image: url(img/load.gif);
+    background-size: 25%;
+    background-repeat: no-repeat;
+    background-position:48px center;
+}
+#file_ch{
+    width: 100%;
+    height: 50%;
+    box-sizing:border-box;
+    display:inline-block;
+    background-color: transparent;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+    position:absolute;
+    left:0;
+    top: 120%;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding-left: 10px;
+    outline: none;
+}
+#file_ch:hover{
+    border:3px solid #87fd9d;
+}
+#file_ch option{
+    color:#1dce0a;
+}
+#sum_t{
+    position:absolute;
+    left:50%;
+    top: 115%;
+    transform: translate(-50%);
+    color:#fff;
+    font-weight:500;
+}
+#sum{
+    position:absolute;
+    left:50%;
+    top: 105%;
+    transform: translate(-50%);
+    color:#fff;
+    font-weight:500;
+}
+#sum_b{
+    position:absolute;
+    bottom:0;
+    right:4px;
+    color:#fff;
+    font-size:12px;
+}
+#ret{
+    display:inline-block;
+    width: 100px;
+    height: 30px;
+    box-sizing:border-box;
+    position:absolute;
+    top:10px;
+    right: 10px;
+    line-height: 28px;
+    padding-left: 30px;
+    color:#fe5959;
+    background-image: url(img/exit1.png);
+    background-size: 35%;
+    cursor:pointer;
+    background-repeat: no-repeat;
+    background-position: left center;
+    display: none;
+}
+#ret:hover{
+    color:#fff;
+    background-image: url(img/exit.png);
+    background-size: 35%;
+}
+#side{
+    position: absolute;
+    width: 140px;
+    height: 60%;;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    box-sizing: border-box;
+    padding: 0px 4px;
+    display: none;
+}
+#side table{
+    display: inline-block;
+    overflow: auto;
+    width: 100%;
+    height: 93%;
+    text-align: center;
+    color: #fff;
+    overflow-x:hidden; 
+}
+#side table caption{
+    width: 140px;
+    height: 30px;
+    font-size: 22px;
+    line-height: 30px;
+    font-weight: 600;
+    margin: 20px 0;
+}
+.child td{
+    width: 100%;
+    float: left;
+    height: 30px;
+}
+#about_mode{
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    transform:translate(-50%);
+    color:#fff;
+    top: 250%;
+}
+#about_mode input{
+    outline:none;
+}
+#about_mode label{
+    cursor: pointer;
+    margin-right: 20px;
+}
+#about_mode label:hover{
+    color:#87fd9d;
+}
+#clear_btn{
+    width: 90%;
+    height: 30px;
+    display: inline-block;
+    box-sizing:border-box;
+    color: #fff;
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+    line-height: 24px;
+    border: 2px solid #fff;
+    cursor: pointer;
+}
+#clear_btn:hover{
+    border: 2px solid #87fd9d;
+}
+footer{
+    width: 100%;
+    height: 40px;
+    background: #fff;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    line-height: 40px;
+    color: #666;
+}
+#logo_move{
+    color: #fff;
+    font-family: Simhei;
+    font-size: 32px;
+    width: 100%;
+    position: relative;
+}
+#logo_move h2{
+    color: #fff;
+    font-family: Simhei;
+    animation: logomove 4s linear;
+    position: absolute;
+    margin-top: 5%;
+    opacity: 0;
+    transform: translate(-50%);
+    left: 0%;
+}
+#logo_move i{
+    display: inline-block;
+    background: transparent;
+    width: 50px;
+    height: 5px;
+    margin-left: 100px;
+    position: absolute;
+    opacity: 0;
+}
+@keyframes logomove {
+    0%{ left: 0%;}
+    10%{left:10%;opacity: 0;}
+    60%{left:60%;opacity: 1;}
+    75%{left:75%;opacity: 0;}
+    100% {left: 100%;}
+}
+#logo_move i:nth-child(2){
+    box-shadow: 55px 0px 6px #ff6;
+    margin-top: 3%;
+    animation: logomove 1.5s  linear;
+}
+#logo_move i:nth-child(3){
+    box-shadow: 55px 0px 6px #ff66ad;
+    margin-top: 9%;
+    animation: logomove 1.5s .2s linear;
+}
+#logo_move i:nth-child(4){
+    box-shadow: 55px 0px 6px #8f3;
+    margin-top: 6%;
+    animation: logomove 1.5s .5s linear;
+}
+#logo_move i:nth-child(5){
+    box-shadow: 55px 0px 6px #55e4f3;
+    margin-top: 7.5%;
+    animation: logomove 1.5s .8s linear;
+}
+@media screen and (max-width: 950px){
+    .load h1{
+        top:30%;
+    }
+    .upload_box{
+        height: 15%;
+    }
+}

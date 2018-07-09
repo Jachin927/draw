@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"  content="width=device-width, initial-scale=1.0" />
+    <title>抽名</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div id="wrap">
+    <!-- <div id="logo_move">
+      <h2>牧码人工作室</h2>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+    </div> -->
+    <div id="download" class="load">
+      <h1 id="out_content">单击或空格键开始跳动</h1>
+      <div class="upload_box">
+        <span id="btn_star">开始跳动</span>
+      </div>
+      <h3 id="sum_t"></h3>
+      <h3 id="sum"></h3>
+    </div>
+    <div id="upload" class="load">
+      <h1><i>欢迎使用</i></h1>
+      <div class="upload_box">
+        <input type="file" id="file">
+        <label for="file" class="f_file btns">上传学生名单</label>
+        <select name="file_ch" id="file_ch">
+          <option value="0">请选择</option>
+        </select>
+        <p><a href='（样例）某年某班.rar' download="（样例）某年某班.rar">下载名单样例</a></p>
+        <form id="about_mode">
+          <input type="radio" name="mode" id="mode_a" value="a" checked />
+          <label for="mode_a">剔除模式</label>
+          <input type="radio" name="mode" id="mode_b" value="b" />
+          <label for="mode_b">重复模式</label>
+        </form>
+      </div>
+    </div>
+    <span id="ret">重载系统</span>
+    <span id="sum_b"></span>
+    <div id="side">
+    	<table>
+    		<caption>已抽名单</caption>
+    		<tr class="child">
+    		</tr>
+    	</table>
+        <span id="clear_btn">清除已抽名单</span>
+    </div>
+    <footer>牧码人工作室</footer>
+  </div>
+</body>
+</html>
+<script src="jquery.min.js"></script>
+<script>
+  var t1,key_open,state=0;//t1:计时器； key_open:限制键盘空格键开启关闭； state：判断按钮该跳动或停止；
+  var mode_type,local_title;//模式选择
+  var arr=new Array(),arr1=new Array(),arr2=new Array(),arr3=new Array();
+  //arr:第一数组，剔除模式过程会删减； arr1：把数组arr保存为字符串，便于剔除模式重新恢复名单；arr2：数组arr转换为字符串，(目的:执行splice()会删减原数组,为保存原数组);arr3:把arr转为字符串
+  var arr9=new Array(),arr8=new Array();
+  var file_ch_val;
+  //获取本地存储值事件
+    $(function(){
+      var lo_length=localStorage.valueOf();
+      // console.log(lo_length)
+      for (var i = 0; i < lo_length.length; i++) {
+        var show_title=localStorage.key(i);
+        console.log(show_title)
+        if (show_title.indexOf('Extract')!=-1) {
+          $('#file_ch').append("<option value="+parseInt(i+1)+">"+(localStorage.key(i)).slice(7)+"</option>");
+        }
+      };
+    })
+  //获取本地存储值事件
+
+  //通过本地存储获取文档(名单)事件
+    $('#file_ch').on('change',function(){
+      local_title=localStorage.key($('#file_ch').val()-1);
+      arr1=fetch(local_title);
+      for (var i = 0; i < arr1.length; i++) {
+        if (arr1[i].state==false) {
+          arr9.push(arr1[i].name);
+        }
+        if (arr1[i].state==true) {
+          arr8.push(arr1[i].name)
+        }
+      }
+      for (var i = 0; i < arr8.length; i++) {
+        $('.child').prepend("<td>"+arr8[i]+"</td>");
+      }
+      $('#upload').hide();
+      $('#download').fadeIn('slow');
+      $('#ret').show();
+      var btn_star_lh=$('#btn_star').height()+"px";
+      var btn_star_fs=$('#btn_star').height()/3+"px";
+      $('#btn_star').css({'lineHeight':btn_star_lh,'fontSize':btn_star_fs});
+      key_open=1;
+      $('#sum_t').text('本班级的人数为：'+arr1.length+"人");
+      mode_type=$("#about_mode input[type='radio']:checked").val();//模式选择
+      if (mode_type=="a") {
+        $('#side').fadeIn('slow');
+      };
+    })
+  //通过本地存储获取文档(名单)事件
+
+  //通过上传文件获取文档(名单)事件
+    $('#file').on('change',function(){
+      var file=document.getElementById("file").files[0];
+      var reader=new FileReader();
+      reader.readAsText(file,'gb2312');
+      reader.onload=function(e)  {
+          var result=document.getElementById("result");
+          var content=this.result;
+          if (content.charAt(content.length-1)=="\n") {
+              content=content.substring(0,content.length-1);
+          }
+          arr=content.split("\n");
+      }
+
+      //本地储存值
+      setTimeout(function(){
+        arr3=arr.toString();
+        arr2=arr3.split(",");
+        for (var i = 0; i < arr2.length; i++) {
+          arr2[i].ind=i;
+          arr1[i]={name:arr2[i],state:false};
+        }
+        var set_name=$('#file').val()
+        var set_name_r=set_name.split("").reverse().join("");
+        var name_head=set_name_r.indexOf(".");
+        var name_end=set_name_r.indexOf("\\");
+        var name_v_r=set_name_r.substring(name_head+1,name_end);
+        var name_v=name_v_r.split("").reverse().join("");
+        console.log(name_v)
+        local_title=name_v;
+        $('#sum_t').text('本班级的人数为：'+arr.length+"人");
+        if(window.localStorage) {
+          // localStorage.setItem(name_v, arr1);
+          save("Extract"+name_v,arr1)
+        }
+        for (var i = 0; i < arr1.length; i++) {
+          arr1[i].ind=i;
+          if (arr1[i].state==false) {
+              arr9.push(arr1[i].name);
+          }
+        }
+      },200);
+      //延时目的：如果不延时获取不到arr;
+      //本地储存值
+      $('#upload').hide();
+      $('#download').fadeIn('slow');
+      $('#ret').show();
+      var btn_star_lh=$('#btn_star').height()+"px";
+      var btn_star_fs=$('#btn_star').height()/3+"px";
+      $('#btn_star').css({'lineHeight':btn_star_lh,'fontSize':btn_star_fs});
+      key_open=1;
+
+      mode_type=$("#about_mode input[type='radio']:checked").val();//模式选择
+      if (mode_type=="a") {
+        $('#side').fadeIn('slow');
+      };
+    })
+  //通过上传文件获取文档(名单)事件
+
+  //开始按钮
+    $('#btn_star').on('click',function(){
+      if (state==0) {
+        t1=setInterval(draw,30);
+        $(this).text('停止跳动');
+        state=1;
+      }else{
+        clearInterval(t1);
+        $(this).text('开始跳动');
+        state=0;
+        if (mode_type=="a") {
+          side_add();
+        };
+      }
+    });
+  //开始按钮
+
+  //键盘事件
+    $(document).keyup(function(event){
+    	if (key_open==1&&event.keyCode==32) {
+    		$('#btn_star').trigger('click');
+    	}
+    })
+  //键盘事件
+
+  //重载系统
+    $('#ret').on('click',function(){
+      window.location.reload();
+    })
+  //重载系统
+
+  //跳动事件
+    function draw(){
+      var num=Math.floor(Math.random()*arr9.length);
+      $('#out_content').text(arr9[num]);
+    }
+  //跳动事件
+
+  //clear_btn清除事件
+    $('#clear_btn').on('click',function(){
+      for (var i = 0; i < arr1.length; i++) {
+        arr1[i].state=false;
+      }
+      local_title.indexOf('Extract')!=-1?save(local_title,arr1):save("Extract"+local_title,arr1);
+      // if (local_title.indexOf('Extract')) {}
+
+      // save("Extract"+local_title,arr1);
+      $('.child').text("");
+      alert('清除完毕！');
+    })
+  //clear_btn清除事件
+
+  //名单(数组arr)剔除事件与侧边栏事件
+    function side_add(){
+    	var del_con;
+      arr8=new Array();
+      del_con=$('#out_content').text();
+      for (var i = 0; i < arr1.length; i++) {
+      	if (arr1[i].name==del_con) {
+          arr1[i].state=true;
+      	}
+      };
+
+      local_title.indexOf('Extract')!=-1?save(local_title,arr1):save("Extract"+local_title,arr1);
+
+      for (var i = 0; i < arr1.length; i++) {
+        if (arr1[i].state==false) {
+          arr9.push(arr1[i].name);
+        }
+        if (arr1[i].state==true) {
+          arr8.push(arr1[i].name)
+        }
+      }
+      $('.child').text("");
+      for (var i = 0; i < arr8.length; i++) {
+        $('.child').prepend("<td>"+arr8[i]+"</td>");
+      }
+    }
+  //名单(数组arr)剔除事件与侧边栏事件
+
+  //localStorage存储获取函数
+    function save(key,val){//保存
+      localStorage.setItem(key,JSON.stringify(val));
+    }
+    function fetch(key){//读取
+      return JSON.parse(localStorage.getItem(key)) || [] ;
+    }
+  //localStorage存储获取函数
+
+</script>
+<script>
+  //设置样式
+    var f_h=$('.f_file').height()+"px";
+    var f_fs=$('.f_file').width()/9+"px";
+    var h_w=$('#upload').width();
+    var btn_star_lh=$('#btn_star').height()+"px";
+    var btn_star_fs=$('#btn_star').height()/3+"px";
+    $('.btns').css({'lineHeight':f_h,'fontSize':f_fs});
+    $('.load h1').css('fontSize',h_w/16+"px");
+    $('#logo_move h2').css('fontSize',h_w/20+"px");
+    $('#out_content').css('fontSize',h_w/16+"px");
+    $('#btn_star').css({'lineHeight':btn_star_lh,'fontSize':btn_star_fs});
+  //窗口改变时，改变样式
+    $(window).resize(function(){
+      var f_h=$('.f_file').height()+"px";
+      var f_fs=$('.f_file').width()/9+"px";
+      var h_w=$('#upload').width();
+      var btn_star_lh=$('#btn_star').height()+"px";
+      var btn_star_fs=$('#btn_star').height()/3+"px";
+      $('.btns').css({'lineHeight':f_h,'fontSize':f_fs});
+      $('.load h1').css('fontSize',h_w/16+"px");
+      $('#logo_move h2').css('fontSize',h_w/20+"px");
+      $('#out_content').css('fontSize',h_w/16+"px");
+      $('#btn_star').css({'lineHeight':btn_star_lh,'fontSize':btn_star_fs});
+    });
+</script>
