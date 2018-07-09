@@ -67,7 +67,7 @@
       // console.log(lo_length)
       for (var i = 0; i < lo_length.length; i++) {
         var show_title=localStorage.key(i);
-        console.log(show_title)
+        // console.log(show_title)
         if (show_title.indexOf('Extract')!=-1) {
           $('#file_ch').append("<option value="+parseInt(i+1)+">"+(localStorage.key(i)).slice(7)+"</option>");
         }
@@ -133,7 +133,7 @@
         var name_end=set_name_r.indexOf("\\");
         var name_v_r=set_name_r.substring(name_head+1,name_end);
         var name_v=name_v_r.split("").reverse().join("");
-        console.log(name_v)
+        // console.log(name_v)
         local_title=name_v;
         $('#sum_t').text('本班级的人数为：'+arr.length+"人");
         if(window.localStorage) {
